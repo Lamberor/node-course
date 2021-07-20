@@ -1,11 +1,22 @@
-console.log('Starting');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
-setTimeout(() => {
-  console.log('2 Second Timer');
-}, 2000);
+const address = process.argv[2];
 
-setTimeout(() => {
-  console.log('0 Second Timer');
-}, 0);
+if (!address) {
+  console.log('Please provide an address!');
+} else {
+  geocode(address, (error, data) => {
+    if (error) {
+      return console.log('Error', error);
+    }
+    forecast(data.latitude, data.longitude, (error, forecastData) => {
+      if (error) {
+        return console.log('Error', error);
+      }
 
-console.log('Stopping');
+      console.log(data.location);
+      console.log(forecastData);
+    });
+  });
+}
