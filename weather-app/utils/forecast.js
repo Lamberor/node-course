@@ -6,16 +6,16 @@ const forecast = (latitude, longitude, callback) => {
     latitude +
     ',' +
     longitude +
-    '&units=f';
-  request({ url: url, json: true }, (error, response) => {
+    '&units=m';
+  request({ url, json: true }, (error, { body }) => {
     if (error) {
       callback('Unable to connect to weather service!', undefined);
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback('Unable to find loaction!', undefined);
     } else {
-      const temperature = response.body.current.temperature;
-      const feelslike = response.body.current.feelslike;
-      const weather_descriptions = response.body.current.weather_descriptions;
+      const temperature = body.current.temperature;
+      const feelslike = body.current.feelslike;
+      const weather_descriptions = body.current.weather_descriptions;
       callback(
         undefined,
         weather_descriptions +
